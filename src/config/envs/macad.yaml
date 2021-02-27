@@ -1,5 +1,9 @@
 env: macad
 
+env_args:
+  seed: 10
+  episode_limit: 300
+
 test_greedy: True
 test_nepisode: 32
 test_interval: 10000

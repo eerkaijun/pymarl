@@ -6,7 +6,8 @@ import numpy as np
 
 class MacadEnv(MultiAgentEnv):
 
-    def __init__(self):
+    def __init__(self, **kwargs):
+        self.episode_limit = kwargs['episode_limit']
         self.base_env = gym.make("HomoNcomIndePOIntrxMASS3CTWN3-v0")
         self.current_observations = self.base_env.reset()
         self.agent_ids = []

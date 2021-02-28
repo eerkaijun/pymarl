@@ -15,10 +15,13 @@ class MacadEnv(MultiAgentEnv):
             self.agent_ids.append(key)
         self.n_agents = len(self.agent_ids) # number of agents
         self.n_actions = 9 # 9 discrete actions in macad -- refer to macad_gym/core/vehicle_manager.py
+        print("successfully initialised!")
 
     def step(self, action_n):
         """ Returns reward, terminated, info """
+        print("action before processing is: ", action_n)
         actions = dict(zip(self.agent_ids, action_n))
+        print("action after processing is: ", actions)
         # macad environment needs to take actions as a dictionary
         self.current_observations, rewards, dones, infos = self.base_env.step(actions)
         r_n = []
@@ -26,13 +29,14 @@ class MacadEnv(MultiAgentEnv):
         for agent_id in rewards:
             r_n.append(rewards.get(agent_id))
             d_n.append(dones.get(agent_id, True))
-
+        print("successfully took a step!")
         return np.sum(r_n), d_n, {}
 
     def get_obs(self):
         """ Returns all agent observations in a list """
         obs_n = []
         for agent_id in self.current_observations:
+            print("observation shape: ", self.current_observations.get(agent_id).shape)
             obs_n.append(self.current_observations.get(agent_id))
         return obs_n
 
@@ -42,13 +46,18 @@ class MacadEnv(MultiAgentEnv):
 
     def get_obs_size(self):
         """ Returns the shape of the observation """
-        return len(self.get_obs_agent(0))
+        size = 1
+        for d in self.get_obs_agent(0).shape:
+            size = size * d
+        print("observation size: ", size)
+        return size
 
     def get_state(self):
         return np.asarray(self.get_obs()).flatten()
 
     def get_state_size(self):
         """ Returns the shape of the state"""
+        print("state shape is: ", self.get_obs_size() * self.n_agents) 
         return self.get_obs_size() * self.n_agents
 
     def get_avail_actions(self):
@@ -76,7 +85,7 @@ class MacadEnv(MultiAgentEnv):
             self.base_env.close()
             self.base_env = gym.make("HomoNcomIndePOIntrxMASS3CTWN3-v0")
             self.current_observations = self.base_env.reset()
-
+        print("successfully started environment!")
         return self.get_obs(), self.get_state()
 
     def render(self):

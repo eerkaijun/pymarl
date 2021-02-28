@@ -8,10 +8,10 @@ epsilon_anneal_time: 50000
 
 runner: "episode"
 
-buffer_size: 5000
+buffer_size: 200
 
 # update the target network every {} episodes
-target_update_interval: 200
+target_update_interval: 20
 
 # use the Q_Learner to train
 agent_output_type: "q"

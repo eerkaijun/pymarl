@@ -36,7 +36,7 @@ class MacadEnv(MultiAgentEnv):
         """ Returns all agent observations in a list """
         obs_n = []
         for agent_id in self.current_observations:
-            print("observation shape: ", self.current_observations.get(agent_id).shape)
+            # print("observation shape: ", self.current_observations.get(agent_id).shape)
             obs_n.append(self.current_observations.get(agent_id))
         return obs_n
 
@@ -49,7 +49,7 @@ class MacadEnv(MultiAgentEnv):
         size = 1
         for d in self.get_obs_agent(0).shape:
             size = size * d
-        print("observation size: ", size)
+        # print("observation size: ", size)
         return size
 
     def get_state(self):
@@ -57,7 +57,7 @@ class MacadEnv(MultiAgentEnv):
 
     def get_state_size(self):
         """ Returns the shape of the state"""
-        print("state shape is: ", self.get_obs_size() * self.n_agents) 
+        # print("state shape is: ", self.get_obs_size() * self.n_agents) 
         return self.get_obs_size() * self.n_agents
 
     def get_avail_actions(self):
@@ -79,6 +79,8 @@ class MacadEnv(MultiAgentEnv):
     def reset(self):
         """ Returns initial observations and states"""
         try:
+            self.base_env.close()
+            self.base_env = gym.make("HomoNcomIndePOIntrxMASS3CTWN3-v0")
             self.current_observations = self.base_env.reset()
         except:
             # retry if it doens't work

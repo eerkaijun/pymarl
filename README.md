@@ -1,15 +1,13 @@
-```diff
-- Please pay attention to the version of SC2 you are using for your experiments. 
-- Performance is *not* always comparable between versions. 
-- The results in SMAC (https://arxiv.org/abs/1902.04043) use SC2.4.6.2.69232 not SC2.4.10.
-```
+
+update 28 Feb 2021: added support for [macad-gym](https://github.com/praveen-palanisamy/macad-gym) environment
+
 
 # Python MARL framework
 
 PyMARL is [WhiRL](http://whirl.cs.ox.ac.uk)'s framework for deep multi-agent reinforcement learning and includes implementations of the following algorithms:
 - [**QMIX**: QMIX: Monotonic Value Function Factorisation for Deep Multi-Agent Reinforcement Learning](https://arxiv.org/abs/1803.11485)
 - [**COMA**: Counterfactual Multi-Agent Policy Gradients](https://arxiv.org/abs/1705.08926)
-- [**VDN**: Value-Decomposition Networks For Cooperative Multi-Agent Learning](https://arxiv.org/abs/1706.05296) 
+- [**VDN**: Value-Decomposition Networks For Cooperative Multi-Agent Learning](https://arxiv.org/abs/1706.05296)
 - [**IQL**: Independent Q-Learning](https://arxiv.org/abs/1511.08779)
 - [**QTRAN**: QTRAN: Learning to Factorize with Transformation for Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/1905.05408)
 
@@ -17,7 +15,7 @@ PyMARL is written in PyTorch and uses [SMAC](https://github.com/oxwhirl/smac) as
 
 ## Installation instructions
 
-Build the Dockerfile using 
+Build the Dockerfile using
 ```shell
 cd docker
 bash build.sh
@@ -32,13 +30,20 @@ This will download SC2 into the 3rdparty folder and copy the maps necessary to r
 
 The requirements.txt file can be used to install the necessary packages into a virtual environment (not recomended).
 
-## Run an experiment 
+## Run an experiment
+
+To run SMAC:
 
 ```shell
 python3 src/main.py --config=qmix --env-config=sc2 with env_args.map_name=2s3z
 ```
 
-The config files act as defaults for an algorithm or environment. 
+To run Macad-gym:
+```shell
+python3 src/main.py --config=qmix --env-config=macad
+```
+
+The config files act as defaults for an algorithm or environment.
 
 They are all located in `src/config`.
 `--config` refers to the config files in `src/config/algs`
@@ -61,11 +66,11 @@ You can save the learnt models to disk by setting `save_model = True`, which is 
 
 ### Loading models
 
-Learnt models can be loaded using the `checkpoint_path` parameter, after which the learning will proceed from the corresponding timestep. 
+Learnt models can be loaded using the `checkpoint_path` parameter, after which the learning will proceed from the corresponding timestep.
 
 ## Watching StarCraft II replays
 
-`save_replay` option allows saving replays of models which are loaded using `checkpoint_path`. Once the model is successfully loaded, `test_nepisode` number of episodes are run on the test mode and a .SC2Replay file is saved in the Replay directory of StarCraft II. Please make sure to use the episode runner if you wish to save a replay, i.e., `runner=episode`. The name of the saved replay file starts with the given `env_args.save_replay_prefix` (map_name if empty), followed by the current timestamp. 
+`save_replay` option allows saving replays of models which are loaded using `checkpoint_path`. Once the model is successfully loaded, `test_nepisode` number of episodes are run on the test mode and a .SC2Replay file is saved in the Replay directory of StarCraft II. Please make sure to use the episode runner if you wish to save a replay, i.e., `runner=episode`. The name of the saved replay file starts with the given `env_args.save_replay_prefix` (map_name if empty), followed by the current timestamp.
 
 The saved replays can be watched by double-clicking on them or using the following command:
 
@@ -79,7 +84,7 @@ python -m pysc2.bin.play --norender --rgb_minimap_size 0 --replay NAME.SC2Replay
 
 Documentation is a little sparse at the moment (but will improve!). Please raise an issue in this repo, or email [Tabish](mailto:tabish.rashid@cs.ox.ac.uk)
 
-## Citing PyMARL 
+## Citing PyMARL
 
 If you use PyMARL in your research, please cite the [SMAC paper](https://arxiv.org/abs/1902.04043).
 

@@ -1,6 +1,6 @@
-```diff
-- added support for [macad-gym](https://github.com/praveen-palanisamy/macad-gym) environment
-```
+
+update 28 Feb 2021: added support for [macad-gym](https://github.com/praveen-palanisamy/macad-gym) environment
+
 
 # Python MARL framework
 
@@ -40,7 +40,7 @@ python3 src/main.py --config=qmix --env-config=sc2 with env_args.map_name=2s3z
 
 To run Macad-gym:
 ```shell
-python3 src/main.py --config=qmix --env-config=sc2
+python3 src/main.py --config=qmix --env-config=macad
 ```
 
 The config files act as defaults for an algorithm or environment.

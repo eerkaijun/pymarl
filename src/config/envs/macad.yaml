@@ -4,6 +4,7 @@ env_args:
   seed: 10
   episode_limit: 300
 
+save_model: True
 batch_size: 16
 buffer_cpu_only: True
 test_greedy: True

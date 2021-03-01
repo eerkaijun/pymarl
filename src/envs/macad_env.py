@@ -20,7 +20,7 @@ class MacadEnv(MultiAgentEnv):
     def step(self, action_n):
         """ Returns reward, terminated, info """
         print("action before processing is: ", action_n)
-        actions = dict(zip(self.agent_ids, action_n))
+        actions = dict(zip(self.agent_ids, action_n.tolist()))
         print("action after processing is: ", actions)
         # macad environment needs to take actions as a dictionary
         self.current_observations, rewards, dones, infos = self.base_env.step(actions)
@@ -30,14 +30,15 @@ class MacadEnv(MultiAgentEnv):
             r_n.append(rewards.get(agent_id))
             d_n.append(dones.get(agent_id, True))
         print("successfully took a step!")
-        return np.sum(r_n), d_n, {}
+        print("terminated: ", dones)
+        return np.sum(r_n), dones["__all__"], {}
 
     def get_obs(self):
         """ Returns all agent observations in a list """
         obs_n = []
         for agent_id in self.current_observations:
-            # print("observation shape: ", self.current_observations.get(agent_id).shape)
-            obs_n.append(self.current_observations.get(agent_id))
+            print("observation shape: ", self.current_observations.get(agent_id).flatten().shape)
+            obs_n.append(self.current_observations.get(agent_id).flatten())
         return obs_n
 
     def get_obs_agent(self, agent_id):
@@ -46,19 +47,20 @@ class MacadEnv(MultiAgentEnv):
 
     def get_obs_size(self):
         """ Returns the shape of the observation """
-        size = 1
-        for d in self.get_obs_agent(0).shape:
-            size = size * d
-        # print("observation size: ", size)
-        return size
+        shape = len(self.get_obs_agent(0))
+        print("observation size: ", shape)
+        return shape
 
     def get_state(self):
         return np.asarray(self.get_obs()).flatten()
 
     def get_state_size(self):
         """ Returns the shape of the state"""
+        shape = len(self.get_state())
+        print("state shape: ", shape)
+        return shape
         # print("state shape is: ", self.get_obs_size() * self.n_agents) 
-        return self.get_obs_size() * self.n_agents
+        # return self.get_obs_size() * self.n_agents
 
     def get_avail_actions(self):
         avail_actions = []
@@ -79,11 +81,11 @@ class MacadEnv(MultiAgentEnv):
     def reset(self):
         """ Returns initial observations and states"""
         try:
-            self.base_env.close()
-            self.base_env = gym.make("HomoNcomIndePOIntrxMASS3CTWN3-v0")
+            print("resetting")
             self.current_observations = self.base_env.reset()
         except:
             # retry if it doens't work
+            print("retrying")
             self.base_env.close()
             self.base_env = gym.make("HomoNcomIndePOIntrxMASS3CTWN3-v0")
             self.current_observations = self.base_env.reset()
@@ -101,3 +103,15 @@ class MacadEnv(MultiAgentEnv):
 
     def save_replay(self):
         pass
+
+if __name__ == "__main__":
+    env = MacadEnv()
+    base_env = env.base_env
+
+    for episode in episodes(n=100):
+        observations = env.reset()
+        
+        dones = {"__all__": False}
+        while not np.all(dones.values()):
+            observations, rewards, dones, infos = env.step([0,1])
+            # episode.record_step(observations, rewards, dones, infos)

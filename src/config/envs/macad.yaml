@@ -2,7 +2,7 @@ env: macad
 
 env_args:
   seed: 10
-  episode_limit: 300
+  episode_limit: 1500
 
 save_model: True
 batch_size: 16

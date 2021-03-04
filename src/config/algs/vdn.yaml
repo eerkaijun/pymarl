@@ -8,7 +8,7 @@ epsilon_anneal_time: 50000
 
 runner: "episode"
 
-buffer_size: 200
+buffer_size: 100
 
 # update the target network every {} episodes
 target_update_interval: 20

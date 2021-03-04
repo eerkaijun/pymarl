@@ -35,8 +35,11 @@ The requirements.txt file can be used to install the necessary packages into a v
 Follow the instructions at [macad-gym](https://github.com/praveen-palanisamy/macad-gym/blob/master/README.md) to setup the macad environment. Setup the virtual environment as described.
 
 Now, activate the virtual environment: `conda activate macad-gym`
+
 Clone this repository: `git clone https://github.com/eerkaijun/pymarl.git`
+
 Navigate into the repo: `cd pymarl`
+
 Install dependencies: `pip install -r requirements.txt`
 
 That's it! :)

@@ -11,9 +11,9 @@ PyMARL is [WhiRL](http://whirl.cs.ox.ac.uk)'s framework for deep multi-agent rei
 - [**IQL**: Independent Q-Learning](https://arxiv.org/abs/1511.08779)
 - [**QTRAN**: QTRAN: Learning to Factorize with Transformation for Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/1905.05408)
 
-PyMARL is written in PyTorch and uses [SMAC](https://github.com/oxwhirl/smac) as its environment.
+PyMARL is written in PyTorch and uses [SMAC](https://github.com/oxwhirl/smac) and [macad-gym](https://github.com/praveen-palanisamy/macad-gym) as its environment.
 
-## Installation instructions
+## Installation instructions for SMAC
 
 Build the Dockerfile using
 ```shell
@@ -29,6 +29,20 @@ bash install_sc2.sh
 This will download SC2 into the 3rdparty folder and copy the maps necessary to run over.
 
 The requirements.txt file can be used to install the necessary packages into a virtual environment (not recomended).
+
+## Installation instructions for macad-gym
+
+Follow the instructions at [macad-gym](https://github.com/praveen-palanisamy/macad-gym/blob/master/README.md) to setup the macad environment. Setup the virtual environment as described.
+
+Now, activate the virtual environment: `conda activate macad-gym`
+
+Clone this repository: `git clone https://github.com/eerkaijun/pymarl.git`
+
+Navigate into the repo: `cd pymarl`
+
+Install dependencies: `pip install -r requirements.txt`
+
+That's it! :)
 
 ## Run an experiment
 
@@ -80,6 +94,9 @@ python -m pysc2.bin.play --norender --rgb_minimap_size 0 --replay NAME.SC2Replay
 
 **Note:** Replays cannot be watched using the Linux version of StarCraft II. Please use either the Mac or Windows version of the StarCraft II client.
 
+## Troubleshooting for macad-gym
+
+If you experience out of memory error, try reducing the `buffer_size` and `batch_size` in the config files.
 ## Documentation/Support
 
 Documentation is a little sparse at the moment (but will improve!). Please raise an issue in this repo, or email [Tabish](mailto:tabish.rashid@cs.ox.ac.uk)

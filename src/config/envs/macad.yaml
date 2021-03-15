@@ -2,10 +2,11 @@ env: macad
 
 env_args:
   seed: 10
-  episode_limit: 1500
+  episode_limit: 500
 
 save_model: True
-batch_size: 16
+save_model_interval: 1500
+batch_size: 4
 buffer_cpu_only: True
 test_greedy: True
 test_nepisode: 32

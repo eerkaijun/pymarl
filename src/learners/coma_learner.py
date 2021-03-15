@@ -3,6 +3,7 @@ from components.episode_buffer import EpisodeBatch
 from modules.critics.coma import COMACritic
 from utils.rl_utils import build_td_lambda_targets
 import torch as th
+import torch.nn as nn
 from torch.optim import RMSprop
 
 
@@ -20,6 +21,11 @@ class COMALearner:
         self.log_stats_t = -self.args.learner_log_interval - 1
 
         self.critic = COMACritic(scheme, args)
+        if th.cuda.device_count() > 1:
+            print("We will be using ", th.cuda.device_count(), " GPU!")
+            self.critic = nn.DataParallel(self.critic)
+            device = th.device("cuda:0")
+            self.critic.to(device)         
         self.target_critic = copy.deepcopy(self.critic)
 
         self.agent_params = list(mac.parameters())

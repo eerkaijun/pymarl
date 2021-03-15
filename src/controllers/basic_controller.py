@@ -1,7 +1,7 @@
 from modules.agents import REGISTRY as agent_REGISTRY
 from components.action_selectors import REGISTRY as action_REGISTRY
 import torch as th
-
+import torch.nn as nn
 
 # This multi-agent controller shares parameters between agents
 class BasicMAC:
@@ -73,6 +73,11 @@ class BasicMAC:
 
     def _build_agents(self, input_shape):
         self.agent = agent_REGISTRY[self.args.agent](input_shape, self.args)
+        if (th.cuda.device_count() > 1): 
+            print("Using multiple GPU")
+            self.agent = nn.DataParallel(self.agent)
+            device = th.device("cuda:0")
+            self.agent.to(device)
 
     def _build_inputs(self, batch, t):
         # Assumes homogenous agents with flat observations.

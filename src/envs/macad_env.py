@@ -15,14 +15,24 @@ class MacadEnv(MultiAgentEnv):
         #for key in self.current_observations:
         #    self.agent_ids.append(key)
         self.n_agents = len(self.agent_ids) # number of agents
-        self.n_actions = 9 # 9 discrete actions in macad -- refer to macad_gym/core/vehicle_manager.py
+        self.n_actions = 6 # 9 discrete actions in macad -- refer to macad_gym/core/vehicle_manager.py
         print("successfully initialised!")
+        #self.empty_action = False
 
     def step(self, action_n):
         """ Returns reward, terminated, info """
         #print("action before processing is: ", action_n)
         actions = dict(zip(self.agent_ids, action_n.tolist()))
         print("action after processing is: ", actions)
+        #if not self.empty_action:
+        actions['car4'] = 4
+        actions['car5'] = 4
+        actions['car7'] = 4
+        actions['car8'] = 4
+        actions['car9'] = 4
+        actions['car10'] = 4
+        #self.empty_action = False
+        # print("action after processing is: ", actions)
         # macad environment needs to take actions as a dictionary
         self.current_observations, rewards, dones, infos = self.base_env.step(actions)
         r_n = []
@@ -32,9 +42,12 @@ class MacadEnv(MultiAgentEnv):
             d_n.append(dones.get(agent_id, True))
         #print("successfully took a step!")
         done = dones["car1"] and dones["car2"] and dones["car3"]
+        #all_done = dones["car1"] and dones["car2"] and dones["car3"] and dones["car4"] and dones["car5"] and dones["car7"] and dones["car8"] and dones["car9"] and dones["car10"]
+        #if (done and not all_done):
+        #    self.empty_action = True 
         print("reward: ", rewards)
         print("terminated: ", dones)
-        return np.sum(r_n), done, {}
+        return np.sum(r_n),done, {}
 
     def get_obs(self):
         """ Returns all agent observations in a list """

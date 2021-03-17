@@ -5,6 +5,8 @@ env_args:
   episode_limit: 1500
 
 save_model: True
+checkpoint_path: "/home/s1800883/pymarl/results/models/coma__2021-03-16_13-05-42/"
+save_model_interval: 3000
 batch_size: 16
 buffer_cpu_only: True
 test_greedy: True

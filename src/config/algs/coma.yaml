@@ -2,7 +2,7 @@
 
 action_selector: "multinomial"
 epsilon_start: .5
-epsilon_finish: .01
+epsilon_finish: .2
 epsilon_anneal_time: 100000
 mask_before_softmax: False
 

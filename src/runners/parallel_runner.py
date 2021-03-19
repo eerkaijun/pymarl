@@ -176,13 +176,15 @@ class ParallelRunner:
         for parent_conn in self.parent_conns:
             parent_conn.send(("get_stats",None))
 
-        env_stats = []
-        for parent_conn in self.parent_conns:
-            env_stat = parent_conn.recv()
-            env_stats.append(env_stat)
+        #env_stats = []
+        #for parent_conn in self.parent_conns:
+        #    env_stat = parent_conn.recv()
+        #    env_stats.append(env_stat)
 
         cur_stats = self.test_stats if test_mode else self.train_stats
+        #print("Current stat: ", cur_stats)
         cur_returns = self.test_returns if test_mode else self.train_returns
+        #print("Current return: ", cur_returns)
         log_prefix = "test_" if test_mode else ""
         infos = [cur_stats] + final_env_infos
         cur_stats.update({k: sum(d.get(k, 0) for d in infos) for k in set.union(*[set(d) for d in infos])})
@@ -250,7 +252,8 @@ def env_worker(remote, env_fn):
         elif cmd == "get_env_info":
             remote.send(env.get_env_info())
         elif cmd == "get_stats":
-            remote.send(env.get_stats())
+            pass
+            #remote.send(env.get_stats())
         else:
             raise NotImplementedError
 

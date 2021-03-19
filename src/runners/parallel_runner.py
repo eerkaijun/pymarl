@@ -169,8 +169,8 @@ class ParallelRunner:
 
         with open('rewards.csv', 'w', newline='', encoding="utf-8") as write_file:
             writer = csv.writer(write_file)
-            content = episode_returns.insert(0, self.episode_num)
-            writer.writerow(content)
+            episode_returns.insert(0, self.episode_num)
+            writer.writerow(episode_returns)
         write_file.close()
         self.episode_num += 1
 

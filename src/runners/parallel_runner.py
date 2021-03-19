@@ -4,6 +4,7 @@ from components.episode_buffer import EpisodeBatch
 from multiprocessing import Pipe, Process
 import numpy as np
 import torch as th
+import csv
 
 
 # Based (very) heavily on SubprocVecEnv from OpenAI Baselines
@@ -28,6 +29,7 @@ class ParallelRunner:
         self.parent_conns[0].send(("get_env_info", None))
         self.env_info = self.parent_conns[0].recv()
         self.episode_limit = self.env_info["episode_limit"]
+        self.episode_num = 0
 
         self.t = 0
 
@@ -139,7 +141,6 @@ class ParallelRunner:
                     # Remaining data for this current timestep
                     post_transition_data["reward"].append((data["reward"],))
                     print("Reward obtained", data["reward"])
-                    episode_returns[idx] += data["reward"]
                     episode_lengths[idx] += 1
                     if not test_mode:
                         self.env_steps_this_run += 1
@@ -166,9 +167,12 @@ class ParallelRunner:
             # Add the pre-transition data
             self.batch.update(pre_transition_data, bs=envs_not_terminated, ts=self.t, mark_filled=True)
 
-        print("Done with one episode??")
-        print(episode_returns)
-        print(episode_lengths)
+        with open('rewards.csv', 'w', newline='', encoding="utf-8") as write_file:
+            writer = csv.writer(write_file)
+            content = episode_returns.insert(0, self.episode_num)
+            writer.writerow(content)
+        write_file.close()
+        self.episode_num += 1
 
         if not test_mode:
             self.t_env += self.env_steps_this_run

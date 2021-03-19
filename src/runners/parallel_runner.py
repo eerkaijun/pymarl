@@ -166,6 +166,9 @@ class ParallelRunner:
             # Add the pre-transition data
             self.batch.update(pre_transition_data, bs=envs_not_terminated, ts=self.t, mark_filled=True)
 
+        print("Done with one episode??")
+        print(episode_returns)
+
         if not test_mode:
             self.t_env += self.env_steps_this_run
 
@@ -264,4 +267,3 @@ class CloudpickleWrapper():
     def __setstate__(self, ob):
         import pickle
         self.x = pickle.loads(ob)
-

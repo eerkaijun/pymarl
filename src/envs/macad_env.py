@@ -15,7 +15,7 @@ class MacadEnv(MultiAgentEnv):
         #for key in self.current_observations:
         #    self.agent_ids.append(key)
         self.n_agents = len(self.agent_ids) # number of agents
-        self.n_actions = 6 # 9 discrete actions in macad -- refer to macad_gym/core/vehicle_manager.py
+        self.n_actions = 7 # 9 discrete actions in macad -- refer to macad_gym/core/vehicle_manager.py
         print("successfully initialised!")
         #self.empty_action = False
 

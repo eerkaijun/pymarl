@@ -5,14 +5,15 @@ env_args:
   episode_limit: 1500
 
 save_model: True
-checkpoint_path: "/home/s1800883/pymarl/results/models/coma__2021-03-16_13-05-42/"
+#checkpoint_path: "/home/s1800883/pymarl/results/models/coma/"
 save_model_interval: 3000
 batch_size: 16
 buffer_cpu_only: True
 test_greedy: True
 test_nepisode: 32
 test_interval: 10000
-log_interval: 10000
-runner_log_interval: 10000
-learner_log_interval: 10000
+log_interval: 200
+runner_log_interval: 200
+learner_log_interval: 200
 t_max: 2050000
+use_tensorboard: True

@@ -167,6 +167,7 @@ class ParallelRunner:
             # Add the pre-transition data
             self.batch.update(pre_transition_data, bs=envs_not_terminated, ts=self.t, mark_filled=True)
 
+        # record each episode reward in a csv file
         with open('rewards.csv', 'a', newline='', encoding="utf-8") as write_file:
             writer = csv.writer(write_file)
             content = []
